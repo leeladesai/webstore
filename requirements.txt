@@ -1,0 +1,20 @@
+# Part A: Minimal dependencies for FastAPI CRUD service
+# Python 3.9+ required
+
+# Core framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# Database and ORM (using SQLModel for simplicity)
+sqlmodel==0.0.14
+
+# HTTP client for testing
+requests==2.31.0
+
+# Load testing
+locust==2.17.0
+
+# Environment variables
+python-dotenv==1.0.0
+
+
