@@ -1,21 +1,33 @@
 # Render.com deployment configuration
 # Part H: Deployment on Render.com
+# 
+# IMPORTANT NOTES:
+# - This configuration uses SQLite for simplicity
+# - SQLite data will be lost on service restarts (ephemeral filesystem)
+# - For production, use PostgreSQL instead (see README for migration guide)
+#
 services:
   - type: web
     name: fastapi-webstore
     env: python
+    # Build command
     buildCommand: pip install -r requirements.txt
+    # Start command (PORT is provided by Render automatically)
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    # Environment variables
     envVars:
       - key: WEBHOOK_SECRET
         sync: false
-        # Set this value in Render dashboard
+        # IMPORTANT: Set this value in Render dashboard after deployment
+        # Generate a secure secret: openssl rand -hex 32
       - key: PORT
         fromService:
           type: web
           name: fastapi-webstore
           property: port
+    # Service plan
     plan: free
     # For production, use:
     # plan: starter
+    # region: oregon  # Optional: specify region (e.g., oregon, frankfurt, singapore)
 
